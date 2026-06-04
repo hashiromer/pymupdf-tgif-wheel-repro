@@ -1,0 +1,6 @@
+.venv-public/
+.venv-alpha/
+diffs/
+__pycache__/
+*.pyc
+.DS_Store

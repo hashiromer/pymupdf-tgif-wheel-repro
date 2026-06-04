@@ -1,0 +1,5 @@
+# Public PyMuPDF build from PyPI.
+# Pinned to the SAME version string as the alpha wheel so that the version is
+# identical and the ONLY difference is the wheel build itself.
+pymupdf==1.27.2.3
+pymupdf4llm==1.27.2.3

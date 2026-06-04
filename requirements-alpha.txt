@@ -1,0 +1,13 @@
+# Alpha PyMuPDF build from the ghostscript "wheels-tgif" index.
+#
+# These three private wheels share the SAME version string (1.27.2.3) as the
+# public PyPI builds but are functionally different: they support env-var
+# selected table-grid extraction (USE_TGIF=0 legacy / 1 TGIFVx / 4
+# TableGridExtractorV4) and ship the pymupdf-layout overlay.
+#
+# Because the version string collides with PyPI, these MUST be installed into a
+# dedicated environment (.venv-alpha) — never mixed with the public build.
+--extra-index-url https://ghostscript.com/~julian/wheels-tgif/simple
+pymupdf==1.27.2.3
+pymupdf4llm==1.27.2.3
+pymupdf-layout==1.27.2.3
