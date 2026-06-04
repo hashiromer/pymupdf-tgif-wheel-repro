@@ -41,6 +41,18 @@ PDFs.
 └── README.md
 ```
 
+## Where the packages come from
+
+| Environment | Package source | Pinned how |
+|---|---|---|
+| `.venv-public` | **PyPI** (default index) | `requirements-public.txt` — `pymupdf==1.27.2.3`, `pymupdf4llm==1.27.2.3` |
+| `.venv-alpha` | **ghostscript `wheels-tgif` index** | `requirements-alpha.txt` — the 3 wheels by **direct URL + SHA-256** |
+
+The alpha wheels are **not vendored** into this repo (git stays binary-free); they
+are downloaded from the ghostscript index at install time and verified against
+the recorded SHA-256 hashes. Exact provenance for every platform is in the
+[Wheel lineage](#wheel-lineage) table below.
+
 ## Setup
 
 Requires [`uv`](https://docs.astral.sh/uv/) (fast Python env manager).
@@ -110,6 +122,36 @@ divergences observed in `diffs/`:
 This confirms the two wheels are **not interchangeable**: results obtained with
 the public wheel cannot be treated as a `USE_TGIF=0` baseline for the alpha
 wheel, because the legacy code path itself differs between the builds.
+
+## Wheel lineage
+
+The public wheels come from **PyPI** (`pip install pymupdf==1.27.2.3
+pymupdf4llm==1.27.2.3`). The alpha wheels come from the ghostscript
+**`wheels-tgif`** index at
+`https://ghostscript.com/~julian/wheels-tgif/`. All alpha wheels are version
+`1.27.2.3` and were fetched and hashed on 2026-06-04:
+
+| Package | Platform | Wheel (under `https://ghostscript.com/~julian/wheels-tgif/`) | SHA-256 |
+|---|---|---|---|
+| pymupdf | macOS arm64 | `pymupdf-1.27.2.3-cp310-abi3-macosx_11_0_arm64.whl` | `7edfb64f2cda694fc771809ca568399ec85809ed6e572e73a207305a06f53fc9` |
+| pymupdf | Linux x86_64 | `pymupdf-1.27.2.3-cp310-abi3-manylinux_2_28_x86_64.whl` | `aa17a99b47ad5a3a6be3ba8d5d741148acc6933bd9fff9e7cb1fa44b1a8cc1fd` |
+| pymupdf | Windows amd64 | `pymupdf-1.27.2.3-cp310-abi3-win_amd64.whl` | `9e7bebb080ae78124a720c08a5dd5a396472b6055eefae39fa75348862e652fb` |
+| pymupdf4llm | any (pure Python) | `pymupdf4llm-1.27.2.3-py3-none-any.whl` | `ba4923a8827e3d69e398f30fb5233a73d9226f10e261cf7ad5a3116378984db4` |
+| pymupdf-layout | macOS arm64 | `pymupdf_layout-1.27.2.3-cp310-abi3-macosx_11_0_arm64.whl` | `e3c36dfacb6aaf2c8a39438c8f312de3e62261590cededf7c9c650776d464a4c` |
+| pymupdf-layout | Linux x86_64 | `pymupdf_layout-1.27.2.3-cp310-abi3-manylinux_2_28_x86_64.whl` | `fe548f35fe6ebebe80ebe2771ee95a6a03ef0cd39c348b639e38263f06cb1cef` |
+| pymupdf-layout | Windows amd64 | `pymupdf_layout-1.27.2.3-cp310-abi3-win_amd64.whl` | `14cd69b4ad6f702fba5f4cca7a8e20bea7f3d53f4faea2dcf71ddd0f7b1e72bb` |
+
+`requirements-alpha.txt` pins the **macOS arm64** rows by `<url>#sha256=<hash>`.
+On Linux or Windows, replace the two platform wheels (`pymupdf`,
+`pymupdf-layout`) with the matching rows above; `pymupdf4llm` is the same pure-
+Python wheel everywhere.
+
+To re-verify a downloaded wheel:
+
+```bash
+curl -sO https://ghostscript.com/~julian/wheels-tgif/pymupdf-1.27.2.3-cp310-abi3-macosx_11_0_arm64.whl
+shasum -a 256 pymupdf-1.27.2.3-cp310-abi3-macosx_11_0_arm64.whl
+```
 
 ## Notes
 

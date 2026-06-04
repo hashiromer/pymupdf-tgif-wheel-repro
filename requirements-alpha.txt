@@ -1,13 +1,16 @@
-# Alpha PyMuPDF build from the ghostscript "wheels-tgif" index.
+# Alpha PyMuPDF build — the 3 private "wheels-tgif" wheels, pinned by DIRECT URL
+# + SHA-256 so the exact provenance is recorded and integrity is verified on
+# install. The wheels themselves are NOT vendored into this repo; they are
+# pulled from the ghostscript index at install time.
 #
-# These three private wheels share the SAME version string (1.27.2.3) as the
-# public PyPI builds but are functionally different: they support env-var
-# selected table-grid extraction (USE_TGIF=0 legacy / 1 TGIFVx / 4
-# TableGridExtractorV4) and ship the pymupdf-layout overlay.
+# These pins are for macOS arm64 (Apple Silicon). For Linux x86_64 or Windows
+# amd64, swap the two platform wheels (pymupdf, pymupdf-layout) for the matching
+# files — see the "Wheel lineage" table in README.md for every URL + hash.
 #
-# Because the version string collides with PyPI, these MUST be installed into a
-# dedicated environment (.venv-alpha) — never mixed with the public build.
---extra-index-url https://ghostscript.com/~julian/wheels-tgif/simple
-pymupdf==1.27.2.3
-pymupdf4llm==1.27.2.3
-pymupdf-layout==1.27.2.3
+# They share version 1.27.2.3 with the public PyPI build but are different
+# builds (USE_TGIF table-grid selection + the pymupdf-layout overlay) and MUST
+# live in their own environment (.venv-alpha) — never mixed with the public one.
+
+pymupdf @ https://ghostscript.com/~julian/wheels-tgif/pymupdf-1.27.2.3-cp310-abi3-macosx_11_0_arm64.whl#sha256=7edfb64f2cda694fc771809ca568399ec85809ed6e572e73a207305a06f53fc9
+pymupdf4llm @ https://ghostscript.com/~julian/wheels-tgif/pymupdf4llm-1.27.2.3-py3-none-any.whl#sha256=ba4923a8827e3d69e398f30fb5233a73d9226f10e261cf7ad5a3116378984db4
+pymupdf-layout @ https://ghostscript.com/~julian/wheels-tgif/pymupdf_layout-1.27.2.3-cp310-abi3-macosx_11_0_arm64.whl#sha256=e3c36dfacb6aaf2c8a39438c8f312de3e62261590cededf7c9c650776d464a4c
